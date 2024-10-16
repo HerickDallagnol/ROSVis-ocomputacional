@@ -9,7 +9,8 @@ from cv_bridge import CvBridge, CvBridgeError
 class KalmanTracker:
     def __init__(self):
         rospy.init_node('kalman_image_filter', anonymous=True)
-        
+
+        #topicos
         self.image_sub = rospy.Subscriber("/game/cam2", CompressedImage, self.image_callback)
         self.target_pub = rospy.Publisher("/target_coordinates", Point, queue_size=10)
         
@@ -27,7 +28,7 @@ class KalmanTracker:
 
     def initialize_kalman(self):
         kalman = cv2.KalmanFilter(4, 2)
-        dt = 1/30.0 #30 FPS
+        dt = 1/30.0 #30 FPS  tem q ver se não é 60fps
         dt_adjusted = dt * 4
         kalman.transitionMatrix = np.array([[1, 0, dt_adjusted, 0],
                                             [0, 1, 0, dt_adjusted],
